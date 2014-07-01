@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<script
+			src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false">
+		</script>
+
+		<script>
+
+			// Set location to centre on
+			var myCenter=new google.maps.LatLng(42.504939, -83.346878);
+
+			// Set other locations in array first title for marker, second coords
+			var locations = [
+			['1',{{lattitude_1}},{{longitude_1}}],
+			['2',{{lattitude_2}},{{longitude_2}}],
+			['3',{{lattitude_3}},{{longitude_3}}],
+			['4',{{lattitude_4}},{{longitude_4}}],
+			['5',{{lattitude_5}},{{longitude_5}}],
+			];
+			
+			
+			
+			function initialize()
+			{
+
+				//apply location marker to centre on
+				var mapProp = {
+					center:myCenter,
+					zoom:10,
+					mapTypeId:google.maps.MapTypeId.ROADMAP
+					};
+
+				var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+
+				var marker=new google.maps.Marker({
+					position:myCenter,
+					color:'00ff00',
+					type:'Circle',
+					title: 'My centre location marker'
+					});
+
+				marker.setMap(null);
+				var infowindow = new google.maps.InfoWindow({
+					//content:"You are here"
+					});
+				infowindow.open(map,marker);
+				// apply other location markers
+				//for (i = 0; i < locations.length; i++) 
+				for (i = 0; i < 5; i++) 
+				{
+					marker = new google.maps.Marker({
+					position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+					map: map,
+					title: locations[i][0]
+					});
+					var infowindow = new google.maps.InfoWindow({
+	//				content:
+					});
+					infowindow.open(map,marker);
+				}
+
+			}
+
+			google.maps.event.addDomListener(window, 'load', initialize);
+		</script>
+	</head>
+		{% block content %}
+		<div>
+			<div class="jumbotron" id="output_results" style="width:80%; float:right; margin-left: 6%; margin-top: 48%; padding: 10px; padding-top: 1px; z-index: 11; position:absolute;
+						    background: transparent; color: black; font-family: 'Chalk' !important;
+						    background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_6kHaIddDVxFDFhUcb53bGXQ0nPOe5Z8kFG8L4IOL6GDAWXYPpw); background-size: cover;">
+				<font face="Gabriola, Gabriola Handwriting, WhisperWrite, Brush Script MT" size=5>
+					<b> Best Matches : &nbsp;
+					1. {{bar_1}} &nbsp;&nbsp;
+					2. {{bar_2}} &nbsp;&nbsp;
+					3. {{bar_3}} &nbsp;&nbsp;
+					4. {{bar_4}} &nbsp;&nbsp;
+					5. {{bar_5}} <br>
+				</font>
+			</div>
+		</div>
+	{%endblock%}
+	<body>
+		<div id="googleMap" style="width:1260px;height:600px;"></div>
+	</body>
+</html>

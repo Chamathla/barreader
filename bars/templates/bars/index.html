@@ -1,0 +1,84 @@
+<body>
+  
+	<div style="float:right;word-spacing:0;"> 
+
+    	<a class="home" href="http://127.0.0.1:8000/bars" target="_top"> 
+    	<font face = "lucida calligraphy" size=2>
+    	HOME </font></a> 
+    	<span style="letter-spacing:10px;"> | </span>
+
+    	<a class="city" href="http://127.0.0.1:8000/bars/city" target="_top"> 
+    	<font face = "lucida calligraphy" size=2>
+    	CITY </font></a> 
+    	<span style="letter-spacing:10px;"> | </span>
+    	
+    	<a class="about" href="http://127.0.0.1:8000/bars/about" target="_top"> 
+    	<font face = "lucida calligraphy" size=2>
+    	ABOUT </font></a> 
+    	<span style="letter-spacing:10px;"> | </span>
+    	
+    	<a class="contact" href="http://127.0.0.1:8000/bars/contact" target="_top"> 
+    	<font face = "lucida calligraphy" size=2>
+    	CONTACT </font></a> 
+    	<span style="letter-spacing:10px;"> | </span>
+    	
+    </div> <br>
+    
+    
+	<div align="center">
+		<h1> <font face = "lucida calligraphy" size=6> Bar Reader </font></h1>
+		<h3> <font face = "lucida calligraphy" size=3> Finding your favourite taste </font></h3>
+	</div>	
+	
+	<br><br>
+    <img style = "float:right" src="http://bilder.bild.de/fotos/bier-28185195-mbqf-25734768/Bild/3.bild.jpg" alt="No flavor found" width="600" height="400">
+	
+	
+	<form method="get" action ="maps">
+	<div align="center">
+		<font face = "lucida calligraphy" size=3> 
+		{% csrf_token %}
+		<br><br><br><br><br><br>
+		Name your favorite bar <input type="text" id="bar" name="bar"><br><br>
+		Tell us your current location <input type="text" id="zipcode" name="zipcode" ><br><br>
+		Miles <input type="text" id="miles" name="miles"> 
+		<input type="submit" value="submit"name="submit"id = "submit"> 
+		
+	<p class="lead" id="output_results"></p>
+	</font>
+	</div>
+	
+	</form>	
+</body>
+
+{% block scripts %}
+<script>
+ 
+    $(document).ready(function(){
+      console.log( "ready!" );
+      $('#find_button').click(function() {
+         var bar = $('#bar_name').val();
+         var miles = $('#miles').val();
+         var zipcode = $('#zipcode').val();
+         getBars(bar, zipcode, miles);
+         window.location.href = 'maps'
+      });
+    });
+  </script>
+<script>
+    $('#miles').typeahead({
+    name: 'miles',
+    remote: '/json/miles?q=%QUERY',
+    limit: 10
+  });
+
+    $('#zipcode').typeahead({
+    name: 'address',
+    //prefetch: '/q?address=B',
+    remote: '/json/address?q=%QUERY',
+    limit: 10
+  });
+</script>
+{% endblock %}
+
+
